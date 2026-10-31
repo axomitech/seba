@@ -77,3 +77,4 @@ textbook, class, subject, medium, chapter, PDF page, printed page (when known), 
 - Public redistribution of textbook text is **off by default** (`CONTENT_EXPOSURE=excerpt`). See [copyright](docs/architecture.md#copyright-and-content-exposure).
 - The Worker compatibility date is `2026-10-30`, one day earlier than the brief's date, because the installed `workerd` rejects newer dates.
 # seba
+# seba
