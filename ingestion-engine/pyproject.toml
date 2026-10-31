@@ -1,0 +1,17 @@
+[project]
+name = "seba-ingest"
+version = "0.1.0"
+description = "SEBA textbook ingestion engine (discovery, download, extraction, OCR, chunking, embeddings, PostgreSQL)"
+requires-python = ">=3.10"
+dependencies = ["PyMuPDF>=1.24", "requests>=2.31", "beautifulsoup4>=4.12", "psycopg2-binary>=2.9"]
+
+[project.scripts]
+seba-ingest = "seba_ingest.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+markers = ["db: needs TEST_DATABASE_URL", "ocr: needs the tesseract binary"]

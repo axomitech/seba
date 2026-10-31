@@ -1,0 +1,38 @@
+{
+  "name": "seba-textbook-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Read-only MCP server (Streamable HTTP) exposing SEBA/ASSEB textbook content from PostgreSQL on Cloudflare Workers",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "wrangler dev --port 8788",
+    "start": "npm run dev",
+    "types": "wrangler types",
+    "type-check": "tsc --noEmit",
+    "lint": "tsc --noEmit",
+    "test": "vitest run",
+    "test:unit": "vitest run tests/unit",
+    "test:integration": "vitest run tests/integration",
+    "deploy": "node scripts/render-config.mjs && wrangler deploy -c wrangler.deploy.jsonc",
+    "check:groq": "node scripts/check-groq.mjs",
+    "deploy:dry-run": "node scripts/render-config.mjs && wrangler deploy -c wrangler.deploy.jsonc --dry-run",
+    "smoke": "node scripts/smoke.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "^2.4.0",
+    "agents": "^0.32.0",
+    "pg": "^8.23.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/client": "^2.4.0",
+    "@types/node": "^26.6.6",
+    "@types/pg": "^8.23.1",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5",
+    "wrangler": "^4.156.0"
+  }
+}

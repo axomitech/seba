@@ -1,0 +1,42 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "seba-textbook-mcp",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-30",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": { "enabled": true },
+
+  // Hyperdrive pools connections to Neon/PostgreSQL. Create it once (see docs/deployment-guide.md) and put
+  // the returned ID in HYPERDRIVE_ID via your deploy environment, or replace the placeholder below in a
+  // private fork. For `wrangler dev`, export
+  //   CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE=postgresql://seba_mcp_reader:...@127.0.0.1:5432/seba_textbooks
+  "hyperdrive": [
+    { "binding": "HYPERDRIVE", "id": "REPLACE_WITH_HYPERDRIVE_ID" }
+  ],
+
+  // Approximate per-location limiter (see src/utils/rate-limit.ts). namespace_id must be unique in your account.
+  "ratelimits": [
+    { "name": "RATE_LIMITER", "namespace_id": "41001", "simple": { "limit": 60, "period": 60 } }
+  ],
+
+  "vars": {
+    "APP_ENV": "production",
+    // "required" (default, fail-closed: MCP_AUTH_TOKEN secret must be set) or "none" (public read-only service)
+    "AUTH_MODE": "required",
+    // "excerpt": passages are truncated to EXCERPT_CHARS and full text is withheld until redistribution
+    //            rights are confirmed (docs: copyright). "full": return complete extracted text.
+    "CONTENT_EXPOSURE": "excerpt",
+    "EXCERPT_CHARS": "600",
+    // Comma-separated browser origins allowed by CORS. Empty = no CORS headers (non-browser MCP clients are unaffected).
+    "ALLOWED_ORIGINS": "",
+    "ENABLE_GROQ_ANSWERS": "false",
+    // Any chat model with tool use from https://console.groq.com/docs/models (production: llama-3.3-70b-versatile,
+    // openai/gpt-oss-120b, openai/gpt-oss-20b, llama-3.1-8b-instant). Verify with `npm run check:groq`.
+    "GROQ_MODEL": "llama-3.3-70b-versatile",
+    "GROQ_BASE_URL": "https://api.groq.com/openai/v1",
+    // Semantic search: set EMBEDDINGS_ENABLED=true AND add an "ai" binding (see docs) after running the
+    // ingestion engine with EMBEDDING_PROVIDER=cloudflare so stored vectors use the same model.
+    "EMBEDDINGS_ENABLED": "false",
+    "EMBEDDING_MODEL": "@cf/baai/bge-m3"
+  }
+}

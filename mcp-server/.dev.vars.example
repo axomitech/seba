@@ -1,0 +1,3 @@
+# Worker secrets for `wrangler dev` (copy to .dev.vars; never commit). Placeholders only.
+MCP_AUTH_TOKEN=generate-with-openssl-rand-hex-32
+GROQ_API_KEY=
